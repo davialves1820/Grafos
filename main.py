@@ -1,6 +1,7 @@
 from ler_arquivo import load_from
 
 def main():
+
     # Solicita ao usuário o número de vértices e carrega o grafo correspondente
     n = input("Quantos vértices (4/10/50/177): ")
     grafo = load_from("input/pcv" + n + ".txt")
@@ -29,5 +30,5 @@ def main():
 
 
 
-
+# Executa a função main
 main()
