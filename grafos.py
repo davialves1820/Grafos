@@ -1,57 +1,79 @@
 import queue
 
 class Grafo:
+    
     def __init__(self, num_vertices):
+        """ Inicia as variáveis """
+
         self.num_vertices = num_vertices
         self.matriz_adjacentes = [[0] * num_vertices for _ in range(num_vertices)] # Cria uma matriz quadrada n com 0 em todas as posições 
         self.vetor_adjacentes = {i: [] for i in range(num_vertices)} # Cria um vetor de lista
 
     def exibir_grafo(self):
+        """ Exibe as informações do grafo """
+
         print("Matriz de adjacentes:")
         for i in range(0, self.num_vertices):
             print(self.matriz_adjacentes[i])
+
         print()
+
         print("Vetor de adjacentes:") 
         for i in range(0, self.num_vertices):
             print(self.vetor_adjacentes[i])
 
     def busca_em_largura(self, source):
-        explorados = [False] * self.num_vertices
-        distancia = [-1] * self.num_vertices
-        predecessor = [-1] * self.num_vertices
+        """ Busca em largura (BFS) """
 
-        explorados[source] = True
+        explorados = [False] * self.num_vertices # Vetor para marcar quais vértices já foram explorados
 
-        # Fila para salvar os vértices já visitados
-        fila = queue.Queue()
+        distancia = [-1] * self.num_vertices  # Vetor para armazenar a distância do vértice 'source' até cada outro vértice
+
+        predecessor = [-1] * self.num_vertices  # Vetor para armazenar o predecessor de cada vértice na busca
+
+        explorados[source] = True # Marca o vértice inicial como explorado
+
+        fila = queue.Queue() # Fila usada para armazenar os vértices que serão visitados
         fila.put(source)
         distancia[source] = 0
 
-        while fila.empty() == False:
-            v = fila.get()
+        # Enquanto houver vértices na fila
+        while not fila.empty():
+            v = fila.get()  # Remove o primeiro vértice da fila
 
             for a in self.vetor_adjacentes[v]:
-                if explorados[a] == False:
-                    fila.put(a)
-                    explorados[a] = True
-                    predecessor[a] = v
-                    distancia[a] = distancia[v] + 1
+                
+                # Se não foi explorado
+                if not explorados[a]:
+                    fila.put(a)  # Adiciona o vizinho à fila
+                    explorados[a] = True  # Marca o vizinho como explorado
+                    predecessor[a] = v  # Define o vértice atual como predecessor do vizinho
+                    distancia[a] = distancia[v] + 1  # Calcula a distância do vizinho a partir da origem
 
+        # Retorna os vetores com as distâncias e os predecessores de todos os vértices
         return distancia, predecessor
 
     def caminho(self, p, d):
-        visitados = []
+        """ Exibe o trajeto até  o vértice d """
+        # p é o vetor de antecessores dos vértices 
         
+        visitados = [] # Vetor para guardar os vétices já visitados
+        
+        # Enquanto não chegar no destino
         while p[d] != -1:
-            visitados.append(d)
-            d = p[d]
+
+            visitados.append(d) # Adiciona o vértice na pilha
+            d = p[d] # Passa para o vértice antecessor de d
+
         if visitados == []:
             print("não há caminho entre os vértices")
-        else: 
-            visitados.append(d)
-            print(visitados)
+        else:  
+            visitados.append(d) # Adiciona o vértice final na pilha
+            print(visitados) # Exibe o trajeto
 
     def busca_em_profundidade(self):
+        """ Busca em profundidade (DFS) """
+
         visitados = [] # Vetor para guardar os vértices já visitados
 
         # Percorre todos os vértices
