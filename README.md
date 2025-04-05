@@ -21,7 +21,7 @@ python main.py
 ```
 ---
 
-## Como testar
+## 🖥️ Simulação
 
 Escolha o arquivo de entrada com o tamanho do grafo.
 ```
